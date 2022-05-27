@@ -31,6 +31,7 @@ turnserver_alt_tls_port=$(ynh_app_setting_get --app=$app --key=turnserver_alt_tl
 synapse_user="matrix-$app"
 synapse_db_name="matrix_$app"
 synapse_db_user="matrix_$app"
+synapse_db_name="matrix_$app"
 upstream_version=$(ynh_app_upstream_version)
 final_www_path="/var/www/$app"
 
@@ -76,20 +77,12 @@ ynh_script_progression --message="Removing dependencies" --weight=15
 ynh_remove_app_dependencies
 
 #=================================================
-# SETUP SSOWAT
-#=================================================
-
-# Remove the skipped url
-python3 ../conf/remove_sso_conf.py $domain $server_name
-
-#=================================================
 # REMOVE APP MAIN DIR
 #=================================================
 ynh_script_progression --message="Removing app main directory" --weight=2
 
 ynh_secure_remove --file=$final_path
 ynh_secure_remove --file=$final_www_path
-ynh_secure_remove --file=/var/lib/matrix-$app
 ynh_secure_remove --file=/var/log/matrix-$app
 ynh_secure_remove --file=/etc/matrix-$app
 ynh_secure_remove --file=/etc/default/matrix-$app
@@ -153,5 +146,7 @@ ynh_system_user_delete --username=$synapse_user
 #=================================================
 # END OF SCRIPT
 #=================================================
+ynh_print_info --message="Due of the backup core only feature the data directory in '/home/yunohost.app/matrix-$app' was not removed. It need to be removed manually to purge app user data."
 
 ynh_script_progression --message="Removal of $app completed" --last
+sleep 1

@@ -11,7 +11,7 @@ server_name: "__SERVER_NAME__"
 
 # When running as a daemon, the file to store the pid in
 #
-pid_file: /var/run/matrix-__APP__/homeserver.pid
+pid_file: /run/matrix-__APP__/homeserver.pid
 
 # The path to the web client which will be served at /_matrix/client/
 # if 'webclient' is configured under the 'listeners' configuration.
@@ -184,7 +184,7 @@ listeners:
   # will also need to give Synapse a TLS key and certificate: see the TLS section
   # below.)
   #
-  - port: __TLS_PORT__
+  - port: __SYNAPSE_TLS_PORT__
     type: http
     tls: true
     resources:
@@ -489,7 +489,7 @@ database:
     args:
         user: __SYNAPSE_DB_USER__
         password: __SYNAPSE_DB_PWD__
-        database: matrix___APP__
+        database: __SYNAPSE_DB_NAME__
         host: localhost
         cp_min: 5
         cp_max: 10
@@ -598,7 +598,7 @@ log_config: "/etc/matrix-__APP__/log.yaml"
 
 # Directory where uploaded images and attachments are stored.
 #
-media_store_path: "/var/lib/matrix-__APP__/media"
+media_store_path: "/home/yunohost.app/matrix-__APP__/media"
 
 # Media storage providers allow media to be stored in different
 # locations.
@@ -613,11 +613,11 @@ media_storage_providers:
    # provider to complete
    store_synchronous: false
    config:
-     directory: "/var/lib/matrix-__APP__/media_storage"
+     directory: "/home/yunohost.app/matrix-__APP__/media_storage"
 
 # Directory where in-progress uploads are stored.
 #
-uploads_path: "/var/lib/matrix-__APP__/uploads"
+uploads_path: "/home/yunohost.app/matrix-__APP__/uploads"
 
 # The largest allowed upload size in bytes
 #
@@ -769,7 +769,7 @@ turn_uris: [ "stuns:__DOMAIN__:__TURNSERVER_TLS_PORT__?transport=dtls", "stuns:_
 
 # The shared secret used to compute passwords for the TURN server
 #
-turn_shared_secret: "__TURNPWD__"
+turn_shared_secret: "__TURNSERVER_PWD__"
 
 # The Username and password if the TURN server needs them and
 # does not use a token
@@ -798,6 +798,8 @@ turn_allow_guests: __ALLOWED_ACCESS__
 # Enable registration for new users.
 #
 enable_registration: __ALLOWED_ACCESS__
+
+enable_registration_without_verification: __ALLOWED_ACCESS__
 
 # Optional account validity configuration. This allows for accounts to be denied
 # any request after a given period.
@@ -885,7 +887,7 @@ enable_registration: __ALLOWED_ACCESS__
 # If set, allows registration of standard or admin accounts by anyone who
 # has the shared secret, even if registration is otherwise disabled.
 #
-registration_shared_secret: "__REGISTRATION_SECRET__"
+registration_shared_secret: "__REGISTRATION_SHARED_SECRET__"
 
 # Set the number of bcrypt rounds used to generate password hash.
 # Larger numbers increase the work factor needed to generate the hash.
@@ -1031,7 +1033,7 @@ report_stats: __REPORT_STATS__
 # the registration_shared_secret is used, if one is given; otherwise,
 # a secret key is derived from the signing key.
 #
-macaroon_secret_key: "__MACAROON_SECRET_KEY__"
+__MACAROON_SECRET_KEY_PARAM__
 
 # a secret which is used to calculate HMACs for form values, to stop
 # falsification of values. Must be specified for the User Consent
