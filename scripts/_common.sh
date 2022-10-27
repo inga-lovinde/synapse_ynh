@@ -18,7 +18,7 @@ install_sources() {
     mkdir -p $final_path
     chown $synapse_user:root -R $final_path
 
-    if [ -n "$(uname -m | grep arm)" ]
+    if uname -m | grep 'arm|aarch64'
     then
         # Clean old file, sometimes it could make some big issues if we don't do this!!
         ynh_secure_remove --file=$final_path/bin
@@ -51,7 +51,7 @@ install_sources() {
         else
             pip3 install --upgrade setuptools wheel pip
         fi
-        
+
         chown $synapse_user:root -R $final_path
         sudo -u $synapse_user env PATH=$PATH pip3 install --upgrade 'cryptography>=3.4.7'
         pip3 install --upgrade cffi ndg-httpsclient psycopg2 lxml jinja2
