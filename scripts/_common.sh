@@ -50,7 +50,7 @@ install_sources() {
         sudo -u $synapse_user env PATH=$PATH pip3 install --upgrade 'cryptography>=3.4.7'
         pip3 install --upgrade cffi ndg-httpsclient psycopg2 lxml jinja2
         # Fix issue https://github.com/YunoHost-Apps/synapse_ynh/issues/248
-        pip3 install --upgrade 'Twisted>=21' 'treq>=21.1.0' matrix-synapse==$upstream_version matrix-synapse-ldap3
+        pip3 install --upgrade 'Twisted>=21,<22.10' 'treq>=21.1.0' matrix-synapse==$upstream_version matrix-synapse-ldap3
 
         # This function was defined when we called "source $final_path/bin/activate". With this function we undo what "$final_path/bin/activate" does
         set +$u_arg;
